@@ -19,17 +19,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Reference to visitors
+
 const visitorsRef = ref(db, "visitors");
 
-// 🔼 Increment safely
+
 runTransaction(visitorsRef, (current) => {
   return (current || 0) + 1;
 });
 
-// 🔄 Listen for changes
+
 onValue(visitorsRef, (snapshot) => {
   const count = snapshot.val();
   const el = document.getElementById("visitor-count");
   if (el) el.textContent = count;
 });
+
