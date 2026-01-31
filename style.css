@@ -35,7 +35,7 @@ body {
 }
 
 .profile {
-    width: 240px;
+    width: 320px;
     padding: 30px;
 
     background: rgba(0, 0, 0, 0.6);
@@ -81,19 +81,19 @@ body {
 
 .links a:hover {
     transform: translateY(-4px);
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(255, 123, 0, 0.397);
 }
 
 footer {
     font-size: 0.75rem;
-    opacity: 0.6;
+    opacity: 0.4;
 }
 
 /* animation */
 @keyframes fadeUp {
     from {
         opacity: 0;
-        transform: translateY(25px);
+        transform: translateY(75px);
     }
     to {
         opacity: 1;
@@ -103,9 +103,90 @@ footer {
 }
 
 section {
-    animation: fadeUp 0.8s ease-in-out both;
-    section:nth-of-type(1) { animation-delay: 0.1s; }
-    section:nth-of-type(2) { animation-delay: 0.25s; }
-    section:nth-of-type(3) { animation-delay: 0.4s; }
+    animation: fadeUp 0.9s ease-in-out both;
 
+    section:nth-of-type(1) { animation-delay: 1.0s; }
+
+    section:nth-of-type(2) { animation-delay: 1.0s; }
+
+    section:nth-of-type(3) { animation-delay: 1.0s; }
+
+}
+
+#guestbook {
+    width: 100%;
+    max-width: 600px;
+
+    padding: 30px;
+
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+
+    border-radius: 16px;
+    text-align: center;
+}
+
+#guestbook h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+#guestbook-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#guestbook input,
+#guestbook textarea {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#guestbook button {
+    margin-top: 10px;
+    padding: 14px;
+
+    border-radius: 14px;
+    border: none;
+
+    background: rgba(255, 123, 0, 0.25);
+    color: #fff;
+
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+#guestbook button:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 123, 0, 0.45);
+}
+
+/* messages list */
+#messages {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#messages li {
+    padding: 14px;
+
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+
+    border-radius: 12px;
+    text-align: left;
+
+    font-size: 0.9rem;
+}
+
+#messages li strong {
+    color: #ffb066;
+}
+
+html {
+    scroll-behavior: smooth;
 }

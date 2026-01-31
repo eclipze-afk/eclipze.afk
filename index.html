@@ -23,19 +23,110 @@
         </section>
 
         <section class="links">
-            <a href="https://osu.ppy.sh/users/37806132">osu!profile (mania btw)</a>
-            <a href="https://steamcommunity.com/id/eclipzezin/">steam</a>
-            <a href="https://github.com/eclipze-afk">github</a>
-            <a href="https://open.spotify.com/user/31ifjyopsf3ldnwqspdzjsdla5si?si=4b6c7f4823494e09">spicify (ifykyk)</a>
+            <a href="https://osu.ppy.sh/users/37806132">★ osu!profile</a>
+            <a href="https://steamcommunity.com/id/eclipzezin/">★ steam</a>
+            <a href="https://github.com/eclipze-afk">★ github</a>
+            <a href="https://open.spotify.com/user/31ifjyopsf3ldnwqspdzjsdla5si?si=4b6c7f4823494e09">★ spicify</a>
             <p>Visitors: <span id="visitor-count">...</span></p>
 
-        </section>
+            <section id="guestbook">
+                 <h2>gang plz leave a message</h2>
 
+            <form id="guestbook-form">
+                 <input type="text" id="name" placeholder="Name" maxlength="40" required />
+                 <textarea id="message" placeholder="Message" maxlength="300" required></textarea>
+                 <button type="submit">send</button>
+            </form>
+
+        <ul id="messages"></ul>
+        </section>
+     
         <footer>
             <p>i hate .js</p>
         </footer>
 
     </main>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDspU2PO9LdWq0Uk6RE9b2fGWrFs_zqBpw",
+    authDomain: "guestbook-e555a.firebaseapp.com",
+    projectId: "guestbook-e555a",
+    storageBucket: "guestbook-e555a.firebasestorage.app",
+    messagingSenderId: "935077665880",
+    appId: "1:935077665880:web:7ff1e1f91e5384a4bffe2d"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  // Initialize Firestore
+  const db = firebase.firestore();
+  
+    const form = document.getElementById("guestbook-form");
+  const nameInput = document.getElementById("name");
+  const messageInput = document.getElementById("message");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (!name || !message) return;
+
+    try {
+      await db.collection("messages").add({
+        name: name,
+        message: message,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      form.reset();
+    } catch (err) {
+      console.error("Error adding message:", err);
+    }
+  });
+
+  const messagesList = document.getElementById("messages");
+
+  db.collection("messages")
+    .orderBy("createdAt", "desc")
+    .onSnapshot((snapshot) => {
+      messagesList.innerHTML = "";
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+
+        const li = document.createElement("li");
+
+        const date = data.createdAt
+          ? data.createdAt.toDate().toLocaleString()
+          : "just now";
+
+        li.innerHTML = `
+          <strong>${escapeHtml(data.name)}</strong>
+          <div style="opacity:.6;font-size:.75rem">${date}</div>
+          <div>${escapeHtml(data.message)}</div>
+        `;
+
+        messagesList.appendChild(li);
+      });
+    });
+
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+</script>
+
 
 </body>
 </html>
